@@ -1,0 +1,25 @@
+1 feign 介绍：
+    feign是除了ribbon之外另一种远程调用服务方式（就是一个服务消费者），feign 集成了 ribbon，
+2 feign 的jar支持
+ 		<dependency>
+ 			<groupId>org.springframework.cloud</groupId>
+ 			<artifactId>spring-cloud-starter-openfeign</artifactId>
+ 		</dependency>
+3 feign 使用方式
+  （1）项目application类上加入注解 @EnableFeignClients开启支持feign
+  （2）服务接口类上加入feign注解 @FeignClient（value="server1"） 其中server1 对应被调用服务在注册中心注册的名称
+       加入了@FeignClient的接口类不需要加入@Service注解，在Controller层通用用bean的方式注入，使用
+  （3）服务接口类里面的方法上面加入注解 @RequestMapping("getPost") 其中 getPost对应的就是server1服务提供方的方法
+       注解了@RequestMapping的方法对应的参数类型和名称和 服务提供方 server1的方法 getPost对应的参数一致
+  （4）Control层调用feign层和我们调用普通的service层一样
+4 feign 自带断路器 hystric，所以不需要添加spring-cloud-starter-netflix-hystrix 这个jar包 ，也不需要在application注解@EnableHystrix
+  （1）pom.xml 加入断路器hystric打开jar包
+    		<dependency>
+    			<groupId>org.springframework.cloud</groupId>
+    			<artifactId>spring-cloud-starter-openfeign</artifactId>
+    		</dependency>
+  （2）默认feign自带的断路器是关闭的，需要在配置打开断路器  feign.hystrix.enabled=true
+  （3）写一个熔断器类实现feign服务接口类，实现服务类的方法，实现的方法就是熔断方法，具体的熔断处理逻辑及提示内容在方法中自定义
+  （4）改造原来的feign服务接口类，在原来注解@FeignClient（value="server1"）基础上入fallback就可以了
+      fallback的值为实现该feign服务接口的类的class，
+      添加熔断后注解是这样：@FeignClient(value = "client1",fallback = FeignServiceHystric.class)

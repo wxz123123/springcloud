@@ -1,0 +1,17 @@
+server:
+  port: 8767
+spring:
+  application:
+    name: config-repo
+  cloud:
+    config:
+      #指明配置服务中心的网址
+      uri: http://localhost:8766/
+      #配置中心对应git的分支
+      label: master
+      #dev开发环境配置文件
+      #test测试环境配置文件
+      #pro正式环境配置文件
+      profile: dev
+
+

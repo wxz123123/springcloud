@@ -1,0 +1,23 @@
+#端口
+server:
+  port: 8766
+#服务名称
+spring:
+  application:
+    name: spring-cloud-config-server
+#服务的远程git仓库地址(末尾.git不需要)
+  cloud:
+    config:
+      server:
+        git:
+          #https://github.com/wxz123123/springconfig.git  末尾的.git不要写上，否则报错找不到仓库404错误
+          uri: https://github.com/wxz123123/springcloud
+#配置文件所在目录
+          search-paths: springconfig
+#配置文件所在分支
+          label: master
+#仓库用户名(如果Git仓库为公开仓库，可以不填写用户名和密码)
+#          username:
+#仓库密码(如果Git仓库为公开仓库，可以不填写用户名和密码)
+#          password:
+

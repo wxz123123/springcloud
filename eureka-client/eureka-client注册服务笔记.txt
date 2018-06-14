@@ -1,0 +1,14 @@
+1 eureka-client 介绍
+  eureka-client 是一个要往eureka-server注册中心注册的服务，
+  同一个eureka-client可以注册不同的端口的多个服务，这样就可以达到一个集群效果
+2 eureka-client使用方式
+ （1）在pom.xml中加入eureka-client
+  		<dependency>
+  			<groupId>org.springframework.cloud</groupId>
+  			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+  		</dependency>
+ （2）加入相关配置
+     注册名称 spring.application.name=client1
+     注册中心地址 eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
+  (3)启动项目，就会根据当前端口在注册中心注册对应的服务，在注册中心对应的名称就是配置中的注册名称
+     注册中心中各个服务之间进行远程调用，就通过注册名称调用

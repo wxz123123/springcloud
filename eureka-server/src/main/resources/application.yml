@@ -1,0 +1,39 @@
+#http://localhost:8761/ 这个是服务的主界面
+#端口
+server:
+  port: 8761
+#1 单个eureka-server服务配置
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #不让eureka-server将自己本身注册为一个eureka-client
+    registerWithEureka: false
+    fetchRegistry: false
+    #eureka-server 主页地址
+    serviceUrl:
+       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+#2 多个eureka-server服务配置
+#---
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    #不让eureka-server将自己本身注册为一个eureka-client
+#    registerWithEureka: false
+#    fetchRegistry: false
+#    #eureka-server 主页地址
+#    serviceUrl:
+#       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#---
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    #不让eureka-server将自己本身注册为一个eureka-client
+#    registerWithEureka: false
+#    fetchRegistry: false
+#    #eureka-server 主页地址
+#    serviceUrl:
+#       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

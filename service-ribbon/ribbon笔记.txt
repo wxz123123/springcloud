@@ -1,0 +1,35 @@
+1 ribbon介绍
+  ribbon 是远程调用服务的一种方式（就是一个服务消费者） ，内部实现了负载均衡
+
+2 ribbon 技术依赖jar
+        <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+		</dependency>
+
+3 ribbon的使用方式
+ （1）ribbon是通过RestTemplate进行远程调用，所以我们要在application中注入RestTemplate最为IOC容器中的bean，
+     方便之后ribbon远程调用其他服务是使用这个bean
+     	@Bean  注入bean
+     	@LoadBalanced 开启负责均衡功能
+     	RestTemplate restTemplate(){
+     		return new RestTemplate();
+     	}
+ （2）通过RestTemplate 的getForObject方法调用远程服务
+      restTemplate.getForObject("http://client1/getPost?name="+name,String.class);
+      client1是服务提供方在注册中心注册的名称
+      getPost?name 表示调用对应的方法已经传入对应的参数，这些都要根据服务提供方的标准来
+      String.class表示该接口返回的类型
+
+4 ribbon加入hystric断路器
+    断路器的作用就是在多次调用服务时，发现服务不存在或者有问题时，不在调用改服务，避免系统崩溃
+ （1）pom.xml加入hystric断路器支持
+ 		<!--熔断器  旧版本是spring-cloud-starter-hystrix-->
+ 		<dependency>
+ 			<groupId>org.springframework.cloud</groupId>
+ 			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+ 		</dependency>
+ （2）在项目application类加入注解开启断路器@EnableHystrix
+ （3）在ribbon的服务类中加入一个普通方法，表示断路执行的方法，方法内容为自定义的断路返回的提示内容及处理逻辑
+ （4）ribbon服务类中需要开启断路功能的方法上加入注解 @HystrixCommand(fallbackMethod = "isError")，开启断路功能
+     fallbackMethod的方法就是刚刚我们自定义的断路方法
