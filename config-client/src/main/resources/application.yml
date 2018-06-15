@@ -1,17 +1,4 @@
-server:
-  port: 8767
-spring:
-  application:
-    name: config-repo
-  cloud:
-    config:
-      #指明配置服务中心的网址
-      uri: http://localhost:8766/
-      #配置中心对应git的分支
-      label: master
-      #dev开发环境配置文件
-      #test测试环境配置文件
-      #pro正式环境配置文件
-      profile: dev
-
-
+#config-client的配置放在bootstrap.properties中
+#bootstrap.properties的加载是先于application.properties,所以仓库的client配置一定要放在这里面，否则有可能会出现错误
+#server:
+#  port: 8767

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
     @Value("${name}")
-    private String name;
+    String name;
     @RequestMapping("/getConfig")
     public String getConfig(){
         return "我是"+name;
