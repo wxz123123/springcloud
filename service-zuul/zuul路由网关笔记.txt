@@ -1,0 +1,32 @@
+1 zuul 介绍
+     zuul是路由网关，和ngnix类似，的反向代理，zuul有负载均衡功能
+2 使用方式
+ （1）pom.xml添加支持
+        //eureka-client
+ 		<dependency>
+ 			<groupId>org.springframework.cloud</groupId>
+ 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+ 		</dependency>
+ 		//zuul
+ 		<dependency>
+ 			<groupId>org.springframework.cloud</groupId>
+ 			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+ 		</dependency>
+ （2）application启动类加入注解@EnableZuulProxy
+         @EnableZuulProxy 是一个组合注解，@EnableCircuitBreaker，@EnableDiscoveryClient,因为它有@EnableDiscoveryClient，所以可以注册到Eureka上
+ （3）路由配置（routes下级是多个服务网关地址配置，path表示已什么开头，serviceId表示访问的具体服务）
+     zuul:
+       #路由配置
+       routes:
+        #1 以api-a开头的请求都转发给service-ribbon服务
+        api-a:
+          path: /api-a/**
+          serviceId: service-ribbon
+        #2 以api-b开头的请求都转发给service-feign服务
+        api-b:
+          path: /api-b/**
+          serviceId: service-feign
+        #3 以api-c开头的请求都转发给client1服务
+        api-c:
+          path: /api-c/**
+          serviceId: client1
